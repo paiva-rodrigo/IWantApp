@@ -10,6 +10,7 @@ public class ApplicationDbContext :DbContext
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
+    //essa classe aqui e usada para criar as migrations com o banco de dados
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.Entity<Product>()

@@ -1,9 +1,10 @@
-﻿using IWantApp.Domain.Products;
+﻿using Flunt.Notifications;
+using IWantApp.Domain.Products;
 
 namespace IWantApp.Domain;
 
 //classe abstrata é aquela que não pode ser nstanciada, apenas herdada por outra classe
-public abstract class Entity
+public abstract class Entity : Notifiable<Notification>
 {
     //toda vez que instanciar alguma classe fiha dessa já vai instanciar o id
     public Entity()

@@ -13,17 +13,12 @@ public class CategoryPost
     public static IResult Action(CategoryRequest categoryRequest, ApplicationDbContext context)
     {
 
-        var category = new Category(categoryRequest.Name)
-        {
-            CreatedBy = "Test",
-            CreatedOn = DateTime.Now,
-            Description = "test",
-            EditBy = "Test",
-            EditedOn = DateTime.Now,
-        };
+        var category = new Category(categoryRequest.Name, "Test", "Test","DESC");
 
-        if (!category.IsValid) 
-            return Results.BadRequest(category.Notifications);
+        if (!category.IsValid)
+        {
+            return Results.ValidationProblem(category.Notifications.ConvertToProblemDetails());
+        }
 
         context.Categories.Add(category);
         context.SaveChanges();

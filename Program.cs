@@ -15,6 +15,7 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
     options.Password.RequiredLength = 3;
     options.Password.RequireLowercase = false;  
 }).AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddScoped<QueryAllUsersWithClaimName>();//quando a classe for instanciada elo aspnet e que vai instancia, por causa do iconfigurations
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

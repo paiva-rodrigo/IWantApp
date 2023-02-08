@@ -1,5 +1,7 @@
-﻿using IWantApp.Endpoints.Categories;
+﻿using Dapper;
+using IWantApp.Endpoints.Categories;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Data.SqlClient;
 
 namespace IWantApp.Endpoints.Employees;
 
@@ -14,20 +16,22 @@ public class EmployeeGetAll
     public static Delegate Handle => Action;
     //Essa parte da função mostra os resultados obtidos 
 
-    public static IResult Action(UserManager<IdentityUser> userManager)
+    public static IResult Action(int? page, int? rows, IConfiguration configuration)
     {
-        var users = userManager.Users.ToList();
-        var employees = new List<EmployeeResponse>();
-         
-        foreach (var item in users)
-        {
-            var claims = userManager.GetClaimsAsync(item).Result;
-            var claimName = claims.FirstOrDefault(c => c.Type == "Name");
-            var userName = claimName != null ? claimName.Value : string.Empty;
-
-            employees.Add(new EmployeeResponse(item.Email, userName));
-        }
-
+        //dapper é usado para facilitar as consultas possibilitando fazer consultas diretamente usando
+        //os codigos do sql
+        var db = new SqlConnection(configuration["ConnectionStrings:IWantDb"]);
+        var query =
+            @"SELECT EMAIL, CLAIMVALUE AS NAME
+            FROM AspNetUsers U INNER JOIN AspNetUserClaims C
+            ON U.ID=C.USERID AND ClaimType = 'Name'
+            order by name
+            OFFSET (@page-1)*@rows ROWS FETCH NEXT @rows ROWS ONLY";
+            
+        var employees = db.Query<EmployeeResponse>(
+            query,
+            new { page,rows });
+            
         return Results.Ok(employees);
     }
 

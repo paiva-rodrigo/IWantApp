@@ -15,7 +15,7 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
     options.Password.RequiredLength = 3;
     options.Password.RequireLowercase = false;  
 }).AddEntityFrameworkStores<ApplicationDbContext>();
-builder.Services.AddScoped<QueryAllUsersWithClaimName>();//quando a classe for instanciada elo aspnet e que vai instancia, por causa do iconfigurations
+builder.Services.AddScoped<QueryAllUsersWithClaimName>();//quando a classe for instanciada elo aspnet e que vai instancia, por causa do iconfigurations0
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -31,7 +31,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 //usamos a linha abaixo para fazer uma referencia aos endpoints
-app.MapMethods(EmployeePost.Template, EmployeePost.Methods, EmployeePost.Handle);
+app.MapMethods(TokenPost.Template, TokenPost.Methods, TokenPost.Handle);
 app.MapMethods(EmployeeGetAll.Template, EmployeeGetAll.Methods, EmployeeGetAll.Handle);
 app.MapMethods(CategoryGetAll.Template, CategoryGetAll.Methods, CategoryGetAll.Handle);
 app.MapMethods(CategoryPut.Template, CategoryPut.Methods, CategoryPut.Handle);

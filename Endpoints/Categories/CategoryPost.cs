@@ -1,5 +1,7 @@
 ﻿using IWantApp.Domain.Products;
 using IWantApp.Infra.Data;
+using Microsoft.AspNetCore.Authorization;
+using System.Diagnostics.CodeAnalysis;
 
 namespace IWantApp.Endpoints.Categories;
 
@@ -10,6 +12,8 @@ public class CategoryPost
     public static Delegate Handle => Action;
     //Essa parte da função mostra os resultados obtidos 
 
+     // [AllowAnonymous]//permite todo mundo usar
+    [Authorize]//somente usuarios authorizads podem usar
     public static IResult Action(CategoryRequest categoryRequest, ApplicationDbContext context)
     {
 

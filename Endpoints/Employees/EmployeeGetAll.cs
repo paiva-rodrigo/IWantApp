@@ -15,8 +15,6 @@ public class EmployeeGetAll
 
     public static IResult Action(int? page, int? rows, QueryAllUsersWithClaimName query)
     {
-        
-            
         return Results.Ok(query.Execute(page.Value,rows.Value));
     }
 

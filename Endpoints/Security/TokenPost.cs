@@ -1,6 +1,7 @@
 ﻿using IWantApp.Domain.Products;
 using IWantApp.Endpoints.Security;
 using IWantApp.Infra.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -15,11 +16,12 @@ como or exemplo os criteriso para ser senha/email*/
 
 public class TokenPost
 {
-    public static string Template => "/employees";
+    public static string Template => "/token";
     public static string[] Methods => new string[] { HttpMethod.Post.ToString() };
     public static Delegate Handle => Action;
     //Essa parte da função mostra os resultados obtidos 
 
+    [AllowAnonymous]
     public static IResult Action(LoginRequest loginRequest, UserManager<IdentityUser> userManager)
     {
        var user = userManager.FindByEmailAsync(loginRequest.Email).Result;
